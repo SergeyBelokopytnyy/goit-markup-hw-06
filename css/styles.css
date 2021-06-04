@@ -6,6 +6,14 @@
     transform: perspective(400px) rotateY(360deg);
   }
 }
+@keyframes rotateX {
+  0% {
+    transform: perspective(400px) rotateX(0deg);
+  }
+  100% {
+    transform: perspective(400px) rotateX(360deg);
+  }
+}
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -33,8 +41,11 @@ footer {
   --primary-text-color: #757575;
   --secondary-text-color: #212121;
   --text-address-color: rgba(255, 255, 255, 0.6);
+  --footer-border-subscription: rgba(255, 255, 255, 0.3);
+  --placeholder-modal-color: rgba(117, 117, 117, 0.5);
   --social-background-foot: rgba(255, 255, 255, 0.1);
   --overlay-cards-color: rgba(33, 150, 243, 0.9);
+  --border-form-color: rgba(33, 33, 33, 0.2);
   --work-item-color: rgba(47, 48, 58, 0.8);
   --backdrop-color: rgba(0, 0, 0, 0.2);
   --icon-close-color: rgba(0, 0, 0, 0.1);
@@ -340,6 +351,7 @@ footer {
 
 .social {
   width: 206px;
+  margin-right: 93px;
 }
 .social .social-list {
   justify-content: space-between;
@@ -721,6 +733,9 @@ header .container {
   height: 100%;
   background-color: var(--backdrop-color);
   z-index: 3;
+  opacity: 1;
+
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .backdrop.is-hidden {
@@ -734,13 +749,18 @@ header .container {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
   width: 528px;
   height: 581px;
   background-color: var(--white-color);
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
     0px 2px 1px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.backdrop.is-hidden .modal {
+  transform: translate(-50%, -50%) scale(0);
 }
 
 /* РАБОТАЕМ С КНОПКОЙ ЗАКРЫТЬ */
@@ -759,11 +779,219 @@ header .container {
   transition-duration: 250ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-  animation: rotateY 2500ms infinite alternate ease-in-out 2000ms;
+  /* animation: rotateY 2500ms infinite alternate ease-in-out 200ms; */
 }
 
 .icon-close-border:hover,
 .icon-close-border:focus {
   fill: var(--accent-color);
   cursor: pointer;
+
+  /* animation: rotateX 2500ms infinite alternate ease-in-out 200ms; */
+}
+
+/* РАБОТАЕМ С ФОРМОЙ В МОДАЛЬНОМ ОКНЕ */
+
+.form-subscription {
+  display: block;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 20px;
+  width: 100%;
+}
+
+.form-item {
+  display: block;
+  height: 40px;
+  width: 448px;
+  border-radius: 4px;
+  border: 1px solid var(--border-form-color);
+  cursor: pointer;
+  padding-left: 42px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  transition-property: border-color;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.form-title {
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  color: var(--secondary-text-color);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.form-text {
+  display: block;
+  width: 448px;
+  height: 120px;
+  border-radius: 4px;
+  border: 1px solid var(--border-form-color);
+  padding: 12px 16px;
+  resize: none;
+
+  transition-property: border-color;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-text::placeholder {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--placeholder-modal-color);
+}
+
+.form-item-text {
+  display: block;
+  font-size: 12px;
+  line-height: 1.17;
+  font-weight: 400;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.subscription {
+  position: relative;
+  display: block;
+  font-size: 14px;
+  color: var(--primary-text-color);
+  line-height: 1.7;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.subscription a {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 400;
+  text-align: center;
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.subscription::before {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  width: 16px;
+  height: 15px;
+  border-radius: 2px;
+  border: 2px var(--secondary-text-color) solid;
+  top: 3px;
+  left: 52px;
+}
+
+.modal-checkbox:focus + .subscription::before {
+  border-color: var(--accent-color);
+}
+
+.icon-check {
+  position: absolute;
+  display: inline-block;
+  top: 3px;
+  left: 52px;
+  opacity: 0;
+}
+
+.modal-checkbox:checked + .subscription .icon-check {
+  opacity: 1;
+}
+
+.form-input {
+  position: relative;
+  margin-bottom: 10px;
+}
+.form-icon {
+  position: absolute;
+  fill: var(--secondary-text-color);
+  left: 0;
+  top: 0;
+  transform: translateX(15px) translateY(14px);
+
+  transition-property: fill;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.button-submit {
+  width: 200px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 1.87;
+  font-weight: 700;
+  margin-left: 164px;
+  margin-right: 164px;
+  margin-bottom: 40px;
+  border-radius: 4px;
+  text-align: center;
+  border-color: transparent;
+  background-color: var(--accent-color);
+  color: var(--white-color);
+  cursor: pointer;
+  box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08),
+    0px 2px 2px rgba(0, 0, 0, 0.12);
+}
+.form-item,
+.form-text {
+  outline: none;
+}
+.form-item:focus + .form-icon,
+.form-item:hover + .form-icon {
+  fill: var(--accent-color);
+}
+.form-item:focus,
+.form-item:hover {
+  border-color: var(--accent-color);
+}
+.form-text:focus,
+.form-text:hover {
+  border-color: var(--accent-color);
+}
+
+/* ФОРМА ПОДПИСКИ В ФУТЕРЕ */
+
+.form-item-footer {
+  width: 358px;
+  height: 50px;
+  margin-right: 12px;
+  padding-left: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--footer-border-subscription);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));
+  background-color: transparent;
+  color: var(--white-color);
+}
+.button-submit-footer {
+  width: 200px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 1.87;
+  font-weight: 700;
+  text-align: left;
+  padding-left: 29px;
+  background-color: var(--accent-color);
+  color: var(--white-color);
+  cursor: pointer;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  border-color: transparent;
+}
+
+.icon-submit-footer {
+  fill: var(--white-color);
+  position: absolute;
+  top: 13px;
+  right: 28px;
+}
+
+.button-subscription {
+  display: inline-block;
+  position: relative;
+}
+.form-item-footer::placeholder {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--text-address-color);
 }
