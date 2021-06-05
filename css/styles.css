@@ -884,20 +884,16 @@ header .container {
   left: 52px;
 }
 
-.modal-checkbox:focus + .subscription::before {
+.modal-checkbox:focus + .subscription::before,
+.modal-checkbox:hover + .subscription::before {
   border-color: var(--accent-color);
 }
 
-.icon-check {
-  position: absolute;
-  display: inline-block;
-  top: 3px;
-  left: 52px;
-  opacity: 0;
-}
-
-.modal-checkbox:checked + .subscription .icon-check {
-  opacity: 1;
+.modal-checkbox:checked + .subscription::before {
+  width: 16px;
+  height: 15px;
+  background-image: url(../images/icon-check.svg);
+  border: none;
 }
 
 .form-input {
